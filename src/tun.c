@@ -188,8 +188,12 @@ get_device(char *device, int device_len, const char *wanted_dev)
 		if (status != ERROR_SUCCESS || datatype != REG_SZ) {
 			goto next;
 		}
+#ifdef TAP_VERSION_ID_CUSTOM
+        if (strncmp(TAP_VERSION_ID_CUSTOM, component, strlen(TAP_VERSION_ID_CUSTOM)) == 0) {
+#else
 		if (strncmp(TAP_VERSION_ID_0801, component, strlen(TAP_VERSION_ID_0801)) == 0 ||
 			strncmp(TAP_VERSION_ID_0901, component, strlen(TAP_VERSION_ID_0901)) == 0) {
+#endif
 			/* We found a TAP32 device, get its NetCfgInstanceId */
 			char iid_string[256] = NET_CFG_INST_ID;
 

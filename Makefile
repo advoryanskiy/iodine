@@ -15,9 +15,10 @@ RM=rm
 RM_FLAGS=-f
 
 TARGETOS = `uname`
+CUSTOM_TAP=
 
 all:
-	@(cd src; $(MAKE) TARGETOS=$(TARGETOS) all)
+	@(cd src; $(MAKE) TARGETOS=$(TARGETOS) CUSTOM_TAP=$(CUSTOM_TAP) all)
 
 install: all
 	$(MKDIR) $(MKDIR_FLAGS) $(DESTDIR)$(sbindir)
@@ -37,7 +38,7 @@ uninstall:
 test: all
 	@echo "!! The check library is required for compiling and running the tests"
 	@echo "!! Get it at http://check.sf.net"
-	@(cd tests; $(MAKE) TARGETOS=$(TARGETOS) all)
+	@(cd tests; $(MAKE) TARGETOS=$(TARGETOS) CUSTOM_TAP=$(CUSTOM_TAP) all)
 
 clean:
 	@echo "Cleaning..."
@@ -88,19 +89,19 @@ iodine-latest-android.zip: iodine-latest
 	@zip -r iodine-latest-android.zip iodine-latest-android
 
 cross-mingw32:
-	@(cd src; $(MAKE) TARGETOS=windows32 CC=i686-w64-mingw32-gcc all)
+	@(cd src; $(MAKE) TARGETOS=windows32 CUSTOM_TAP=$(CUSTOM_TAP) CC=i686-w64-mingw32-gcc all)
 
 cross-mingw64:
-	@(cd src; $(MAKE) TARGETOS=windows32 CC=x86_64-w64-mingw32-gcc all)
+	@(cd src; $(MAKE) TARGETOS=windows32 CUSTOM_TAP=$(CUSTOM_TAP) CC=x86_64-w64-mingw32-gcc all)
 
 iodine-latest-windows.zip: iodine-latest
 	@mv iodine-latest iodine-latest-windows
 	@mkdir -p iodine-latest-windows/64bit iodine-latest-windows/32bit
-	@(cd src; $(MAKE) TARGETOS=windows32 CC=i686-w64-mingw32-gcc clean all)
+	@(cd src; $(MAKE) TARGETOS=windows32 CUSTOM_TAP=$(CUSTOM_TAP) CC=i686-w64-mingw32-gcc clean all)
 	@i686-w64-mingw32-strip bin/iodine*
 	@for i in `ls bin`; do cp bin/$$i iodine-latest-windows/32bit/$$i.exe; done
 	@cp /usr/i686-w64-mingw32/bin/zlib1.dll iodine-latest-windows/32bit
-	@(cd src; $(MAKE) TARGETOS=windows32 CC=x86_64-w64-mingw32-gcc clean all)
+	@(cd src; $(MAKE) TARGETOS=windows32 CUSTOM_TAP=$(CUSTOM_TAP) CC=x86_64-w64-mingw32-gcc clean all)
 	@x86_64-w64-mingw32-strip bin/iodine*
 	@for i in `ls bin`; do cp bin/$$i iodine-latest-windows/64bit/$$i.exe; done
 	@cp /usr/x86_64-w64-mingw32/bin/zlib1.dll iodine-latest-windows/64bit

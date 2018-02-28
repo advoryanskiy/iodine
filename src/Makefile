@@ -10,8 +10,8 @@ HEAD_COMMIT = `git rev-parse --short HEAD`
 
 LIBPATH = -L.
 LDFLAGS +=  -lz `sh osflags $(TARGETOS) link` $(LIBPATH)
-CFLAGS += -std=c99 -c -g -Wall -D$(OS) -pedantic `sh osflags $(TARGETOS) cflags` -DGITREVISION=\"$(HEAD_COMMIT)\"
-CFLAGS += -Wstrict-prototypes -Wtype-limits -Wmissing-declarations -Wmissing-prototypes
+CFLAGS += -std=c99 -c -g -Wall -D$(OS) $(if $(CUSTOM_TAP),-DTAP_VERSION_ID_CUSTOM="\"$(CUSTOM_TAP)\"",) -pedantic `sh osflags $(TARGETOS) cflags` -DGITREVISION=\"$(HEAD_COMMIT)\"
+CFLAGS += -Wstrict-prototypes -Wtype-limits -Wmissing-declarations -Wmissing-prototypes -P
 
 all: stateos $(CLIENT) $(SERVER)
 
