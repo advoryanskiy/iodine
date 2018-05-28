@@ -421,12 +421,14 @@ open_tun(const char *tun_device)
 	char tun_name[50];
 
 #ifdef DARWIN
-	if (!strncmp(tun_device, "utun", 4)) {
-		tun_fd = open_utun(tun_device);
-		if (tun_fd >= 0) {
-			return tun_fd;
+    if (tun_device != NULL) {
+		if (!strncmp(tun_device, "utun", 4)) {
+			tun_fd = open_utun(tun_device);
+			if (tun_fd >= 0) {
+				return tun_fd;
+			}
 		}
-	}
+    }
 #endif
 
 	if (tun_device != NULL) {
@@ -444,6 +446,7 @@ open_tun(const char *tun_device)
 		return tun_fd;
 	} else {
 		for (i = 0; i < TUN_MAX_TRY; i++) {
+            printf("Checking /dev/tun%d\n", i);
 			snprintf(tun_name, sizeof(tun_name), "/dev/tun%d", i);
 
 			if ((tun_fd = open(tun_name, O_RDWR)) >= 0) {
