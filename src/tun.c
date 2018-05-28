@@ -298,7 +298,11 @@ open_tun(const char *tun_device)
 		if (tun_device) {
 			warnx("No TAP adapters found. Try without -d.");
 		} else {
+#ifdef TAP_VERSION_ID_CUSTOM
+        	warnx("No TAP adapters found. Version '%s' is supported.", TAP_VERSION_ID_CUSTOM);
+#else
 			warnx("No TAP adapters found. Version 0801 and 0901 are supported.");
+#endif
 		}
 		return -1;
 	}

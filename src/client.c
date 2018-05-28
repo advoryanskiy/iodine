@@ -26,7 +26,7 @@
 #include <sys/param.h>
 #include <sys/time.h>
 #include <fcntl.h>
-#include <zlib.h>
+#include "zlib.h"
 #include <time.h>
 
 #ifdef WINDOWS32
@@ -1117,10 +1117,10 @@ client_tunnel(int tun_fd, int dns_fd)
 
 		i = select(MAX(tun_fd, dns_fd) + 1, &fds, NULL, NULL, &tv);
 
- 		if (lastdownstreamtime + 60 < time(NULL)) {
- 			warnx("No downstream data received in 60 seconds, shutting down.");
- 			running = 0;
- 		}
+// 		if (lastdownstreamtime + 60 < time(NULL)) {
+// 			warnx("No downstream data received in 60 seconds, shutting down.");
+// 			running = 0;
+// 		}
 
 		if (running == 0)
 			break;

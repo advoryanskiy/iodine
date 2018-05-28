@@ -26,7 +26,7 @@
 #include <sys/time.h>
 #include <fcntl.h>
 #include <time.h>
-#include <zlib.h>
+#include "zlib.h"
 
 #include "common.h"
 
